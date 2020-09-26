@@ -70,23 +70,23 @@ const defaultAccountList = [
         accountList: []
     }
 ];
+
 const INITIAL_STATE = {
-    list: defaultAccountList,
-    counter: Number(13),
+    list: (localStorage.getItem("list")) ? JSON.parse(localStorage.getItem("list")) : defaultAccountList,
+    counter: (localStorage.getItem("counter")) ? Number(localStorage.getItem("counter")) : 13,
     loading: false,
     openModal: false
 
 };
 
 const getNewState = function (newState, payload) {
-    // const newState = { ...state };
     const account = {
         id: newState.counter + 1,
         amount: payload.amount,
         name: payload.name,
         showOnDashboard: payload.showOnDashboard
     }
-    const accountGroup = newState.list.filter(group => group.id == payload.accountGroupId);
+    const accountGroup = newState.list.filter(group => group.id === Number(payload.accountGroupId));
     if (!accountGroup) {
         throw "Invalid account group.";
     }
@@ -98,12 +98,16 @@ const getNewState = function (newState, payload) {
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case ADD:
-            const newList = getNewState({...state}, action.payload)
-            // return Utility.updateObject(state, {
-            //     list: newList,
-            //     counter: state.counter + 1
-            // });
-            return { ...state, list: newList, counter: state.counter+2};
+            const newList = getNewState({ ...state }, action.payload)
+            const newCounter = Number(state.counter) + 1
+            localStorage.setItem("list", JSON.stringify(newList));
+            localStorage.setItem("counter", newCounter);
+            state.counter++;
+            return Utility.updateObject(state, {
+                counter: newCounter,
+                list: newList,
+
+            });
 
         case DELETE:
             return Utility.updateObject(state, {
