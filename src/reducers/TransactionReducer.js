@@ -1,4 +1,4 @@
-import { ADD_TRANSACTION, ADD_EXPENSE_TAG, ADD_INCOME_TAG, ADD_TRANSFER, ADD_INCOME, SET_SELECTED_TAGS } from "../actions/types";
+import { ADD_TRANSACTION, ADD_EXPENSE_TAG, ADD_INCOME_TAG, ADD_TRANSFER, ADD_INCOME, SET_SELECTED_TAGS, SET_ACTIVE_FORM } from "../actions/types";
 import Utility from "../Utility";
 
 const DEFAULT_EXPENSE_TAG_LIST = [
@@ -91,6 +91,11 @@ export default (state = INITIAL_STATE, action) => {
         case SET_SELECTED_TAGS:
             return Utility.updateObject(state, {
                 selectedTags: action.payload
+            });
+
+        case SET_ACTIVE_FORM:
+            return Utility.updateObject(state, {
+                activeForm: action.payload
             });
         default:
             return state;

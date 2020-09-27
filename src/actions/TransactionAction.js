@@ -1,12 +1,9 @@
-import { ADD_TRANSACTION, ADD_EXPENSE_TAG, DEDUCT_FROM_ACCOUNT, OPEN_TRANSACTION_MODAL, LOADING, CLOSE_TRANSACTION_MODAL, RESET_LOADING, SET_SELECTED_TAGS } from "./types";
-import { reset, change } from "redux-form";
+import { ADD_TRANSACTION, ADD_EXPENSE_TAG, DEDUCT_FROM_ACCOUNT, ADD_TO_ACCOUNT, OPEN_TRANSACTION_MODAL, LOADING, CLOSE_TRANSACTION_MODAL, RESET_LOADING, SET_SELECTED_TAGS, SET_ACTIVE_FORM, ADD_INCOME_TAG } from "./types";
+import { reset } from "redux-form";
 import Utility from "../Utility";
 
 export const addExpense = (formValues) => async (dispatch) => {
-
-    console.log("add account action: ", formValues);
     try {
-
         dispatch(loading()); //initiating loading
         dispatch({
             type: ADD_TRANSACTION,
@@ -18,13 +15,7 @@ export const addExpense = (formValues) => async (dispatch) => {
                 note: formValues.note
             }
         });
-        dispatch({
-            type: DEDUCT_FROM_ACCOUNT,
-            payload: {
-                id: Number(formValues.from),
-                amount: Number(formValues.amount)
-            }
-        });
+        deductFromAccount(dispatch.formValues.from, formValues.amount)
 
         //will be replaced by some logger service
         console.info("Expense added successfully");
@@ -36,6 +27,77 @@ export const addExpense = (formValues) => async (dispatch) => {
     }
 }
 
+export const addIncome = (formValues) => async (dispatch) => {
+    try {
+        dispatch(loading()); //initiating loading
+        dispatch({
+            type: ADD_TRANSACTION,
+            payload: {
+                to: formValues.to,
+                date: formValues.date,
+                from: null,
+                amount: formValues.amount,
+                note: formValues.note
+            }
+        });
+        addtoAccount(dispatch, formValues.to, formValues.amount);
+
+        //will be replaced by some logger service
+        console.info("Income added successfully");
+        dispatch(reset('incomeForm'));
+    } catch (e) {
+        console.error("Error Occurred while adding income: ", e)
+    } finally {
+        dispatch(resetLoading()); //terminating loading
+    }
+}
+
+export const addTransfer = (formValues) => async (dispatch) => {
+    try {
+        dispatch(loading()); //initiating loading
+        dispatch({
+            type: ADD_TRANSACTION,
+            payload: {
+                to: formValues.to,
+                date: formValues.date,
+                from: formValues.to,
+                amount: formValues.amount,
+                note: formValues.note
+            }
+        });
+        addtoAccount(dispatch, formValues.to, formValues.amount);
+        deductFromAccount(dispatch, formValues.from, formValues.amount)
+
+        //will be replaced by some logger service
+        console.info("Transfer added successfully");
+        dispatch(reset('transferForm'));
+    } catch (e) {
+        console.error("Error Occurred while adding transfer: ", e)
+    } finally {
+        dispatch(resetLoading()); //terminating loading
+    }
+}
+
+const addtoAccount = (dispatch, id, amount) => {
+    dispatch({
+        type: ADD_TO_ACCOUNT,
+        payload: {
+            id: Number(id),
+            amount: Number(amount)
+        }
+    });
+}
+
+const deductFromAccount = (dispatch, id, amount) => {
+    dispatch({
+        type: DEDUCT_FROM_ACCOUNT,
+        payload: {
+            id: Number(id),
+            amount: Number(amount)
+        }
+    });
+}
+
 
 export const setSelectedTags = tags => async (dispatch) => {
     console.log("setting tags");
@@ -45,6 +107,14 @@ export const setSelectedTags = tags => async (dispatch) => {
         payload: tags
     });
 }
+
+export const setActiveForm = form => async (dispatch) => {
+    dispatch({
+        type: SET_ACTIVE_FORM,
+        payload: form
+    });
+}
+
 export const addExpenseTag = tag => async (dispatch) => {
     console.log(tag);
     const formattedTag = Utility.capitalizeEveryFirstChar(tag.label);
@@ -57,12 +127,23 @@ export const addExpenseTag = tag => async (dispatch) => {
         }
     });
 }
+export const addIncomeTag = tag => async (dispatch) => {
+    const formattedTag = Utility.capitalizeEveryFirstChar(tag.label);
+    dispatch({
+        type: ADD_INCOME_TAG,
+        payload: {
+            value: formattedTag,
+            label: formattedTag
+        }
+    });
+}
 
 export const loading = () => {
     return {
         type: LOADING
     }
 };
+
 export const openTransactionModal = (formType) => {
     return {
         type: OPEN_TRANSACTION_MODAL,

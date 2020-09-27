@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { addExpense, addExpenseTag, setSelectedTags } from '../../actions';
+import { addIncome, addIncomeTag, setSelectedTags } from '../../actions';
 import Loading from "../html/Loading";
 import Select from "../html/Select";
 import Date from "../html/Date";
@@ -10,12 +10,12 @@ import Text from "../html/Text";
 import CreatableSelect from 'react-select/creatable';
 
 
-class ExpenseForm extends React.Component {
+class IncomeForm extends React.Component {
 
     handleChange = (newValue, actionMeta) => {
         this.props.setSelectedTags(newValue);
         if (actionMeta.action === "create-option") {
-            this.props.addExpenseTag(newValue[newValue.length - 1]);
+            this.props.addIncomeTag(newValue[newValue.length - 1]);
         }
     };
 
@@ -29,10 +29,10 @@ class ExpenseForm extends React.Component {
 
     render() {
         return (
-            <form name="expenseForm" onSubmit={this.props.handleSubmit(this.props.addExpense)}>
+            <form name="incomeForm" onSubmit={this.props.handleSubmit(this.props.addIncome)}>
                 <div className="row mb-3 mt-3">
                     <div className="col-9">
-                        <Field component={Select} name="from" label="From" options={this.getAccountList()} required="true" />
+                        <Field component={Select} name="to" label="To" options={this.getAccountList()} required="true" />
 
                     </div>
 
@@ -66,7 +66,7 @@ class ExpenseForm extends React.Component {
                     </div>
 
                     <div className="col-3">
-                        <button type="submit" className="btn btn-primary btn-block" disabled={this.props.loading}> Add Expense &nbsp; <Loading /></button>
+                        <button type="submit" className="btn btn-primary btn-block" disabled={this.props.loading}> Add Income &nbsp; <Loading /></button>
                     </div>
                 </div>
             </form>
@@ -75,7 +75,7 @@ class ExpenseForm extends React.Component {
 }
 const validate = (formValues) => {
     const errors = {};
-    if (!formValues.from || formValues.from === "0") {
+    if (!formValues.to || formValues.to === "0") {
         errors.from = "Enter From Account"
     }
 
@@ -103,13 +103,13 @@ const validate = (formValues) => {
 const mapStateToProps = state => {
     return {
         accountList: state.account.list,
-        tags: state.transaction.expenseTags
+        tags: state.transaction.incomeTags
     }
 };
 
-const connectExpenseForm = connect(mapStateToProps, { addExpense, addExpenseTag, setSelectedTags })(ExpenseForm);
+const connectIncomeForm = connect(mapStateToProps, { addIncome, addIncomeTag, setSelectedTags })(IncomeForm);
 export default reduxForm({
-    form: "expenseForm",
+    form: "incomeForm",
     validate,
     enableReinitialize: true
-})(connectExpenseForm);
+})(connectIncomeForm);

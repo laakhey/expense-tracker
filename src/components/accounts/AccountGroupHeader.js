@@ -15,6 +15,7 @@ class AccountGroupHeader extends React.Component {
         return this.props.accountList.map(account => {
             account.showTextColor = this.showTextColor;
             account.groupId = this.props.id;
+            account.hideEdit = this.props.hideEdit;
             return <AccountListCard key={account.id} {...account} />
         });
     }

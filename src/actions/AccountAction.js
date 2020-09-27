@@ -2,15 +2,11 @@ import { ADD, EDIT, CLOSE_MODAL, LOADING, OPEN_MODAL, RESET_LOADING } from "./ty
 import { reset, change } from "redux-form";
 
 export const addAccount = formValues => async (dispatch) => {
-
-    console.log("add account action: ", formValues);
     try {
-
         dispatch(loading()); //initiating loading
         if (!formValues.amount) {
             formValues.amount = 0;
         }
-
         dispatch({
             type: formValues.id ? EDIT : ADD,
             payload: {
@@ -22,7 +18,6 @@ export const addAccount = formValues => async (dispatch) => {
             }
         });
         // dispatch(success("Account added successfully."));
-
         //will be replaced by some logger service
         console.info("Account added successfully");
         dispatch(reset('accountForm'));
@@ -37,8 +32,6 @@ export const addAccount = formValues => async (dispatch) => {
 
 
 export const fillAccountForm = account => async (dispatch) => {
-    console.log("filling account form");
-    console.log(account);
     dispatch(change("accountForm", "id", account.id));
     dispatch(change("accountForm", "name", account.name));
     dispatch(change("accountForm", "accountGroup", account.group));

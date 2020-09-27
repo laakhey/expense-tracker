@@ -1,4 +1,4 @@
-import { ADD, EDIT, DELETE, LOADING, RESET, RESET_LOADING, CLOSE_MODAL, OPEN_MODAL, DEDUCT_FROM_ACCOUNT } from "../actions/types";
+import { ADD, EDIT, DELETE, LOADING, RESET, RESET_LOADING, CLOSE_MODAL, OPEN_MODAL, DEDUCT_FROM_ACCOUNT, ADD_TO_ACCOUNT } from "../actions/types";
 import Utility from "../Utility";
 
 //later will be added to some constant file.
@@ -58,6 +58,7 @@ const defaultAccountList = [
     }
 ];
 
+//account reducer initial data
 const INITIAL_STATE = {
     list: (localStorage.getItem("list")) ? JSON.parse(localStorage.getItem("list")) : defaultAccountList,
     loading: false,
@@ -74,13 +75,25 @@ const INITIAL_STATE = {
 
 };
 
+//deducting amount from account
 const deductAmount = (state, payload) => {
     state.list.filter(obj => obj.id === Number(payload.id)).map(obj => {
         obj.amount = obj.amount - payload.amount
+        return obj;
     });
     return state.list;
 }
 
+//adding amount to account
+const addAmount = (state, payload) => {
+    state.list.filter(obj => obj.id === Number(payload.id)).map(obj => {
+        obj.amount = obj.amount + payload.amount
+        return obj;
+    });
+    return state.list;
+}
+
+//for updating the account in array
 const updateAccountList = function (state, payload) {
     const newState = { ...state };
     newState.list.filter(account => account.id === Number(payload.id)).map(account => {
@@ -117,6 +130,12 @@ export default (state = INITIAL_STATE, action) => {
             localStorage.setItem("list", JSON.stringify(updatedDeductedList));
             return Utility.updateObject(state, {
                 list: updatedDeductedList
+            });
+        case ADD_TO_ACCOUNT:
+            const updatedAddedList = addAmount(state, action.payload);
+            localStorage.setItem("list", JSON.stringify(updatedAddedList));
+            return Utility.updateObject(state, {
+                list: updatedAddedList
             });
 
         case DELETE:

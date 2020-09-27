@@ -94,7 +94,6 @@ class AccountForm extends React.Component {
     }
 }
 const validate = (formValues) => {
-    console.log("form", formValues);
     const errors = {};
     if (!formValues.name) {
         errors.name = "Enter Account name"
@@ -105,7 +104,6 @@ const validate = (formValues) => {
     if (formValues.amount) {
         try {
             const amount = Number(formValues.amount);
-            console.log(amount);
             if (Object.is(NaN, amount)) {
                 errors.amount = "Enter Valid Amount"
             }
@@ -114,8 +112,6 @@ const validate = (formValues) => {
 
         }
     }
-    console.log(errors);
-
     return errors;
 };
 

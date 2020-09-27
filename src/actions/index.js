@@ -3,7 +3,7 @@ export {
 } from './AccountAction';
 
 export {
-    addExpense, setSelectedTags, addExpenseTag
+    addExpense, addIncome, setSelectedTags, addExpenseTag, addIncomeTag, addTransfer, setActiveForm
 } from './TransactionAction';
 
 export {

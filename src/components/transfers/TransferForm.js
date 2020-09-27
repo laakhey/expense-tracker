@@ -1,23 +1,15 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { addExpense, addExpenseTag, setSelectedTags } from '../../actions';
+import { addTransfer } from '../../actions';
 import Loading from "../html/Loading";
 import Select from "../html/Select";
 import Date from "../html/Date";
 import TextGroup from "../html/TextGroup";
 import Text from "../html/Text";
-import CreatableSelect from 'react-select/creatable';
 
 
-class ExpenseForm extends React.Component {
-
-    handleChange = (newValue, actionMeta) => {
-        this.props.setSelectedTags(newValue);
-        if (actionMeta.action === "create-option") {
-            this.props.addExpenseTag(newValue[newValue.length - 1]);
-        }
-    };
+class TransferForm extends React.Component {
 
     getAccountList() {
         return this.props.accountList.map(data => {
@@ -29,11 +21,10 @@ class ExpenseForm extends React.Component {
 
     render() {
         return (
-            <form name="expenseForm" onSubmit={this.props.handleSubmit(this.props.addExpense)}>
+            <form name="transferForm" onSubmit={this.props.handleSubmit(this.props.addTransfer)}>
                 <div className="row mb-3 mt-3">
                     <div className="col-9">
                         <Field component={Select} name="from" label="From" options={this.getAccountList()} required="true" />
-
                     </div>
 
                     <div className="col-3">
@@ -45,18 +36,14 @@ class ExpenseForm extends React.Component {
 
                 <div className="row mb-3 mt-3">
                     <div className="col-9">
-                        <label className="form-label">Tags</label>
-                        <CreatableSelect
-                            isMulti
-                            onChange={this.handleChange}
-                            options={this.props.tags}
-                        />
+                        <Field component={Select} name="to" label="To" options={this.getAccountList()} required="true" />
 
                     </div>
 
                     <div className="col-3">
                         <div className="amount-margin-top">
                             <Field component={Date} name="date" required="true" />
+
                         </div>
                     </div>
                 </div>
@@ -66,7 +53,7 @@ class ExpenseForm extends React.Component {
                     </div>
 
                     <div className="col-3">
-                        <button type="submit" className="btn btn-primary btn-block" disabled={this.props.loading}> Add Expense &nbsp; <Loading /></button>
+                        <button type="submit" className="btn btn-primary btn-block" disabled={this.props.loading}> Add Transfer &nbsp; <Loading /></button>
                     </div>
                 </div>
             </form>
@@ -76,11 +63,16 @@ class ExpenseForm extends React.Component {
 const validate = (formValues) => {
     const errors = {};
     if (!formValues.from || formValues.from === "0") {
-        errors.from = "Enter From Account"
+        errors.from = "Select From Account";
     }
 
+    if (!formValues.to || formValues.to === "0") {
+        errors.to = "Select To Account";
+    }
+
+
     if (!formValues.amount) {
-        errors.amount = "Enter amount."
+        errors.amount = "Enter amount.";
     }
 
     if (formValues.amount) {
@@ -88,28 +80,30 @@ const validate = (formValues) => {
             const amount = Number(formValues.amount);
             console.log(amount);
             if (Object.is(NaN, amount)) {
-                errors.amount = "Enter Valid Amount"
+                errors.amount = "Enter Valid Amount";
             }
         } catch (e) {
-            errors.amount = "Enter Valid Amount"
+            errors.amount = "Enter Valid Amount";
         }
     }
     if (!formValues.date) {
-        errors.date = "Enter date."
+        errors.date = "Enter date.";
+    }
+    if (formValues.from !== "0" && formValues.to !== "0" && formValues.from === formValues.to) {
+        errors.from = "From and To account cannot be same";
     }
     return errors;
 };
 
 const mapStateToProps = state => {
     return {
-        accountList: state.account.list,
-        tags: state.transaction.expenseTags
+        accountList: state.account.list
     }
 };
 
-const connectExpenseForm = connect(mapStateToProps, { addExpense, addExpenseTag, setSelectedTags })(ExpenseForm);
+const connectTransferForm = connect(mapStateToProps, { addTransfer })(TransferForm);
 export default reduxForm({
-    form: "expenseForm",
+    form: "transferForm",
     validate,
     enableReinitialize: true
-})(connectExpenseForm);
+})(connectTransferForm);
