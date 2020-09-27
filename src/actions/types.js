@@ -1,9 +1,11 @@
 export const ADD = 'ADD';
+export const EDIT = 'EDIT';
 export const DELETE = 'DELETE';
 export const ADD_ACCOUNT_FAILED = 'ADD_ACCOUNT_FAILED';
 export const LOADING = 'LOADING';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
 export const OPEN_MODAL = 'OPEN_MODAL';
+export const UPDATE_ACCOUNT_FORM = 'UPDATE_ACCOUNT_FORM';
 
 export const START_LOADING = 'START_LOADING';
 export const RESET_LOADING = 'RESET_LOADING';

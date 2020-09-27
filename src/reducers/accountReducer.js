@@ -1,96 +1,82 @@
-import { ADD, DELETE, LOADING, RESET, RESET_LOADING, CLOSE_MODAL, OPEN_MODAL } from "../actions/types";
+import { ADD, EDIT, DELETE, LOADING, RESET, RESET_LOADING, CLOSE_MODAL, OPEN_MODAL } from "../actions/types";
 import Utility from "../Utility";
 
 //later will be added to some constant file.
 const defaultAccountList = [
     {
-        id: 1,
-        name: "Cash",
-        accountList: [{
-            id: 2,
-            name: "Alice's Wallet",
-            amount: 10000,
-            showOnDashboard: true
-        },
-        {
-            id: 3,
-            name: "Bob's Wallet",
-            amount: 5000,
-            showOnDashboard: true
-        }]
+        id: 2,
+        name: "Alice's Wallet",
+        amount: 10000,
+        showOnDashboard: true,
+        group: "Cash"
     },
     {
-        id: 4,
-        name: "Asset",
-        accountList: [{
-            id: 5,
-            name: "Car",
-            amount: 20000,
-            showOnDashboard: false
-        }]
+        id: 3,
+        name: "Bob's Wallet",
+        amount: 5000,
+        showOnDashboard: true,
+        group: "Cash"
     },
     {
-        id: 6,
-        name: "Bank Account",
-        accountList: [{
-            id: 7,
-            name: "Checking",
-            amount: 15000,
-            showOnDashboard: true
-        }, {
-            id: 8,
-            name: "Saving",
-            amount: 25000,
-            showOnDashboard: true
-        }]
+        id: 10,
+        name: "Car Loan",
+        amount: -15000,
+        showOnDashboard: false,
+        group: "Credit"
+    }, {
+        id: 11,
+        name: "MasterCard",
+        amount: 0,
+        showOnDashboard: true,
+        group: "Credit"
+    }, {
+        id: 12,
+        name: "VisaCard",
+        amount: 1000,
+        showOnDashboard: true,
+        group: "Credit"
     },
     {
-        id: 9,
-        name: "Credit",
-        accountList: [{
-            id: 10,
-            name: "Car Loan",
-            amount: -15000,
-            showOnDashboard: false
-        }, {
-            id: 11,
-            name: "MasterCard",
-            amount: 0,
-            showOnDashboard: true
-        }, {
-            id: 12,
-            name: "VisaCard",
-            amount: 1000,
-            showOnDashboard: true
-        }]
+        id: 5,
+        name: "Car",
+        amount: 20000,
+        showOnDashboard: false,
+        group: "Asset"
     },
     {
-        id: 13,
-        name: "Deposit",
-        accountList: []
+        id: 7,
+        name: "Checking",
+        amount: 15000,
+        showOnDashboard: true,
+        group: "Bank"
+    }, {
+        id: 8,
+        name: "Saving",
+        amount: 25000,
+        showOnDashboard: true,
+        group: "Bank"
     }
 ];
 
 const INITIAL_STATE = {
     list: (localStorage.getItem("list")) ? JSON.parse(localStorage.getItem("list")) : defaultAccountList,
-    counter: (localStorage.getItem("counter")) ? Number(localStorage.getItem("counter")) : 13,
     loading: false,
-    openModal: false
+    openModal: false,
+    counter: (localStorage.getItem("counter")) ? Number(localStorage.getItem("counter")) : 20,
+    addAccount: true,
+    groups: ["Cash", "Bank", "Asset", "Credit", "Deposit"]
 
 };
 
-const getNewState = function (newState, payload) {
-    const account = {
-        id: newState.counter + 1,
-        amount: payload.amount,
-        name: payload.name,
-        showOnDashboard: payload.showOnDashboard
-    }
-    const accountGroup = newState.list.filter(group => group.id === Number(payload.accountGroupId));
-    if (!accountGroup) {
-        throw "Invalid account group.";
-    }
-    accountGroup[0].accountList.push(account);
+const updateAccountList = function (state, payload) {
+    const newState = { ...state };
+    newState.list.filter(account => account.id === Number(payload.id)).map(account => {
+        account.name = payload.name;
+        account.group = payload.group;
+        account.showOnDashboard = payload.showOnDashboard;
+        account.amount = payload.amount;
+        return account;
+    });
     return newState.list;
 
 }
@@ -98,15 +84,20 @@ const getNewState = function (newState, payload) {
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case ADD:
-            const newList = getNewState({ ...state }, action.payload)
-            const newCounter = Number(state.counter) + 1
+            const newCounter = state.counter + 1;
+            action.payload.id = newCounter;
+            const newList = state.list.concat(action.payload);
             localStorage.setItem("list", JSON.stringify(newList));
-            localStorage.setItem("counter", newCounter);
-            state.counter++;
+            localStorage.setItem("counter", JSON.stringify(newCounter));
             return Utility.updateObject(state, {
-                counter: newCounter,
                 list: newList,
-
+                counter: newCounter
+            });
+        case EDIT:
+            const updatedList = updateAccountList(state, action.payload);
+            localStorage.setItem("list", JSON.stringify(updatedList));
+            return Utility.updateObject(state, {
+                list: updatedList
             });
 
         case DELETE:
@@ -120,7 +111,7 @@ export default (state = INITIAL_STATE, action) => {
         case RESET_LOADING:
             return Utility.updateObject(state, { loading: false });
         case OPEN_MODAL:
-            return Utility.updateObject(state, { openModal: true });
+            return Utility.updateObject(state, { openModal: true, addAccount: action.payload === "add" ? true : false });
         case CLOSE_MODAL:
             return Utility.updateObject(state, { openModal: false });
         default:

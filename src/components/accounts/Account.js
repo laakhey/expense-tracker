@@ -2,17 +2,26 @@ import React from "react";
 import AccountForm from "./AccountForm";
 import { connect } from 'react-redux';
 import AccountGroupHeader from "./AccountGroupHeader";
-import { openModal } from '../../actions'
+import { openModal } from '../../actions';
+import _ from 'lodash';
 
 class Account extends React.Component {
     renderList() {
-        return this.props.accountList.map(data => {
-            return (data.accountList.length > 0) ? <AccountGroupHeader key={data.id}{...data} /> : "";
+        const groupList = _.chain(this.props.accountList).groupBy("group").map((value, key) => {
+            console.log("lodash: ", value, key);
+            return {
+                "group": key,
+                "accountList": value
+            };
+        }).value();
+        console.log("after: ", groupList);
+        return groupList.map(group => {
+            return <AccountGroupHeader key={group.group}{...group} />;
         })
     }
 
     openModal() {
-        this.props.openModal()
+        this.props.openModal("add");
     }
 
     render() {

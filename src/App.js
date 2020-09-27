@@ -25,8 +25,8 @@ function App() {
 						</Suspense>
 					</div>
 				</div>
+				<Notification />
 			</Router>
-			<Notification />
 		</div>
 	);
 }

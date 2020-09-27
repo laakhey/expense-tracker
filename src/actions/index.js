@@ -1,8 +1,8 @@
 export {
-    addAccount, openModal, closeModal
+    addAccount, openModal, closeModal, fillAccountForm
 } from './AccountAction';
 
 export {
     info, reset, error, success, warning
-} from './notification'
+} from './NotificationAction'
 

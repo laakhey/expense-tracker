@@ -1,55 +1,49 @@
-import { ADD, CLOSE_MODAL, LOADING, OPEN_MODAL, RESET_LOADING } from "./types";
-// import play from "../api/play";
-import { reset } from "redux-form";
-import { success, error } from "../actions"
-// import {logger} from "../logger";
-
-// export const signIn = (userId, email, name, pictureUrl) => async (dispatch) => {
-//     // logger.info("verifying user login");
-//     const response = await play.post('/login', {
-//         email,
-//         name,
-//         pictureUrl
-//     });
-
-//     dispatch({
-//         type: ADD,
-//         payload: {
-//             id: response.data.id,
-//             userId: userId,
-//             userEmail: email,
-//             userName: name,
-//             userPictureUrl: pictureUrl || null
-//         },
-//     });
-// };
+import { ADD, EDIT, CLOSE_MODAL, LOADING, OPEN_MODAL, RESET_LOADING } from "./types";
+import { reset, change } from "redux-form";
 
 export const addAccount = formValues => async (dispatch) => {
 
     console.log("add account action: ", formValues);
     try {
+
         dispatch(loading()); //initiating loading
         if (!formValues.amount) {
             formValues.amount = 0;
         }
+
         dispatch({
-            type: ADD,
+            type: formValues.id ? EDIT : ADD,
             payload: {
+                id: formValues.id,
                 name: formValues.name,
-                accountGroupId: formValues.accountGroup,
-                showOnDashboard: formValues.showOnDashboard || true,
+                group: formValues.accountGroup,
+                showOnDashboard: (formValues.showOnDashboard === undefined) ? true : formValues.showOnDashboard,
                 amount: formValues.amount
             }
         });
-        console.log("success");
-        dispatch(success("Account added successfully."));
-        console.log("success after");
+        // dispatch(success("Account added successfully."));
+
+        //will be replaced by some logger service
+        console.info("Account added successfully");
+        dispatch(reset('accountForm'));
+        dispatch(closeModal());
     } catch (e) {
-        dispatch(error("Error Occurred while adding account."+ e));
+        console.error("Error Occurred while adding account: ", e)
+        // dispatch(error("Error Occurred while adding account: " + e));
     } finally {
-        dispatch(reset('accountForm')); 
         dispatch(resetLoading()); //terminating loading
     }
+}
+
+
+export const fillAccountForm = account => async (dispatch) => {
+    console.log("filling account form");
+    console.log(account);
+    dispatch(change("accountForm", "id", account.id));
+    dispatch(change("accountForm", "name", account.name));
+    dispatch(change("accountForm", "accountGroup", account.group));
+    dispatch(change("accountForm", "showOnDashboard", account.showOnDashboard));
+    dispatch(change("accountForm", "amount", account.amount));
 }
 
 
@@ -58,9 +52,10 @@ export const loading = () => {
         type: LOADING
     }
 };
-export const openModal = () => {
+export const openModal = (formType) => {
     return {
-        type: OPEN_MODAL
+        type: OPEN_MODAL,
+        payload: formType
     }
 };
 export const closeModal = () => {

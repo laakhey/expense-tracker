@@ -11,8 +11,10 @@ class AccountGroupHeader extends React.Component {
     }
 
     renderAccountList() {
+        console.log("group: ", this.props)
         return this.props.accountList.map(account => {
             account.showTextColor = this.showTextColor;
+            account.groupId = this.props.id;
             return <AccountListCard key={account.id} {...account} />
         });
     }
@@ -23,7 +25,7 @@ class AccountGroupHeader extends React.Component {
         return (
             <div>
                 <div className="card-header" >
-                    <span>{this.props.name}</span>
+                    <span>{this.props.group}</span>
                     <span className={'float-right font-weight-bold ' + this.showTextColor(this.getTotalAmount())}>{this.getTotalAmount()} NPR</span>
                 </div>
                 <ul className="list-group">

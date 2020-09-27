@@ -13,20 +13,21 @@ import Modal from "react-bootstrap/Modal";
 class AccountForm extends React.Component {
 
     getAccountGroupList() {
-        return this.props.accountList.map(group => {
-            return {
-                id: group.id,
-                name: group.name
-            }
-        });
+        return this.props.groups;
     }
 
     renderDelete() {
         return this.props.edit ? <button type="button" className="btn btn-danger" disabled={this.props.loading}>Delete  &nbsp; <Loading /></button> : "";
     }
-    
+
     hideModal() {
+        this.props.reset();
         this.props.closeModal();
+    }
+
+    renderAccountFormTitle() {
+        console.log("addAccount: ", this.props.addAccount);
+        return this.props.isAdd ? "Add Account" : "Edit Account";
     }
 
     render() {
@@ -34,7 +35,7 @@ class AccountForm extends React.Component {
             <div>
                 <Modal show={this.props.isModalOpen} onHide={this.hideModal} backdrop="static">
                     <Modal.Header>
-                        <Modal.Title>{this.props.title}</Modal.Title>
+                        <Modal.Title>{this.renderAccountFormTitle()}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <form name="accountForm" onSubmit={this.props.handleSubmit(this.props.addAccount)}>
@@ -117,7 +118,9 @@ const mapStateToProps = state => {
     return {
         accountList: state.account.list,
         loading: state.account.loading,
-        isModalOpen: state.account.openModal
+        isModalOpen: state.account.openModal,
+        isAdd: state.account.addAccount,
+        groups: state.account.groups
     }
 };
 
