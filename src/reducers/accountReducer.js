@@ -1,4 +1,4 @@
-import { ADD, EDIT, DELETE, LOADING, RESET, RESET_LOADING, CLOSE_MODAL, OPEN_MODAL } from "../actions/types";
+import { ADD, EDIT, DELETE, LOADING, RESET, RESET_LOADING, CLOSE_MODAL, OPEN_MODAL, DEDUCT_FROM_ACCOUNT } from "../actions/types";
 import Utility from "../Utility";
 
 //later will be added to some constant file.
@@ -64,9 +64,22 @@ const INITIAL_STATE = {
     openModal: false,
     counter: (localStorage.getItem("counter")) ? Number(localStorage.getItem("counter")) : 20,
     addAccount: true,
-    groups: ["Cash", "Bank", "Asset", "Credit", "Deposit"]
+    groups: [
+        { id: 1, name: "Cash" },
+        { id: 2, name: "Bank" },
+        { id: 3, name: "Asset" },
+        { id: 4, name: "Credit" },
+        { id: 5, name: "Deposit" }
+    ]
 
 };
+
+const deductAmount = (state, payload) => {
+    state.list.filter(obj => obj.id === Number(payload.id)).map(obj => {
+        obj.amount = obj.amount - payload.amount
+    });
+    return state.list;
+}
 
 const updateAccountList = function (state, payload) {
     const newState = { ...state };
@@ -98,6 +111,12 @@ export default (state = INITIAL_STATE, action) => {
             localStorage.setItem("list", JSON.stringify(updatedList));
             return Utility.updateObject(state, {
                 list: updatedList
+            });
+        case DEDUCT_FROM_ACCOUNT:
+            const updatedDeductedList = deductAmount(state, action.payload);
+            localStorage.setItem("list", JSON.stringify(updatedDeductedList));
+            return Utility.updateObject(state, {
+                list: updatedDeductedList
             });
 
         case DELETE:

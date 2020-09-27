@@ -2,7 +2,7 @@ import React from "react";
 import InvalidFeedback from './InvalidFeedback';
 
 const renderAccountGroups = function (options) {
-    return options.map(group => <option key={group} value={group}>{group}</option>);
+    return options.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>);
 };
 const Select = ({ input, label, options, required, meta }) => {
     const isInvalid = meta.error && meta.touched;

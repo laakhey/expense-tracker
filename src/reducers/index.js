@@ -1,10 +1,12 @@
 import { combineReducers } from "redux";
-import accountReducer from "./accountReducer";
+import AccountReducer from "./AccountReducer";
 import { reducer as formReducer } from "redux-form";
 import NotificationReducer from './NotificationReducer';
+import TransactionReducer from './TransactionReducer';
 
 export default combineReducers({
-    account: accountReducer,
+    account: AccountReducer,
+    transaction: TransactionReducer,
     form: formReducer,
     notification: NotificationReducer,
 });

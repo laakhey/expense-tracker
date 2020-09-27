@@ -13,7 +13,12 @@ import Modal from "react-bootstrap/Modal";
 class AccountForm extends React.Component {
 
     getAccountGroupList() {
-        return this.props.groups;
+        console.log(this.props.groups);
+        return this.props.groups.map(data => {
+            data.value = data.name;
+            data.label = data.name;
+            return data;
+        });
     }
 
     renderDelete() {

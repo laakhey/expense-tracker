@@ -1,6 +1,10 @@
 import React from "react";
 
+import ExpenseForm from '../components/expenses/ExpenseForm'
+
 class Dashboard extends React.Component {
+
+
     render() {
         return (
             <div className="row mt-3">
@@ -71,61 +75,20 @@ class Dashboard extends React.Component {
                                 <li className="nav-item" role="presentation">
                                     <a className="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Transfer</a>
                                 </li>
-                                <li class="nav-item" role="presentation">
+                                <li className="nav-item" role="presentation">
                                     <a className="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Income</a>
                                 </li>
                             </ul>
                             <div className="tab-content" id="myTabContent">
                                 <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 
-                                    <form>
-                                        <div className="row mb-3 mt-3">
-                                            <div className="col-9">
-                                                <label for="from" className="form-label">From</label>
-                                                <select className="form-select" aria-label="Default select example" id="from">
-                                                    <option value="1">My Cash</option>
-                                                    <option value="2">Bank</option>
-                                                    <option value="3">Other Cash</option>
-                                                </select>
-                                            </div>
-
-                                            <div className="col-3">
-                                                <div class="input-group amount-margin-top">
-                                                    <input type="text" id="amount" class="form-control" />
-                                                    <span class="input-group-text" id="basic-addon2">NPR</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="row mb-3 mt-3">
-                                            <div className="col-9">
-                                                <label for="tags" className="form-label">Tags</label>
-                                                <input type="text" className="form-control" id="tags" />
-                                            </div>
-
-                                            <div className="col-3">
-                                                <div class="input-group amount-margin-top">
-                                                    <input type="date" class="form-control" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="row mb-3 mt-3">
-                                            <div className="col-9">
-                                                <input type="text" className="form-control" id="note" placeholder="Note" />
-                                            </div>
-
-                                            <div className="col-3">
-                                                <button type="submit" className="btn btn-primary btn-block">Add Expense</button>
-                                            </div>
-                                        </div>
-
-                                    </form>
+                                    <ExpenseForm />
                                 </div>
                                 <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                     <form>
                                         <div className="row mb-3 mt-3">
                                             <div className="col-9">
-                                                <label for="from" className="form-label">From</label>
+                                                <label htmlFor="from" className="form-label">From</label>
                                                 <select className="form-select" aria-label="Default select example" id="from">
                                                     <option value="1">My Cash</option>
                                                     <option value="2">Bank</option>
@@ -134,16 +97,16 @@ class Dashboard extends React.Component {
                                             </div>
 
                                             <div className="col-3">
-                                                <div class="input-group amount-margin-top">
-                                                    <input type="text" id="amount" class="form-control" />
-                                                    <span class="input-group-text" id="basic-addon2">NPR</span>
+                                                <div className="input-group amount-margin-top">
+                                                    <input type="text" id="amount" className="form-control" />
+                                                    <span className="input-group-text" id="basic-addon2">NPR</span>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="row mb-3 mt-3">
                                             <div className="col-9">
-                                                <label for="to" className="form-label">To</label>
+                                                <label htmlFor="to" className="form-label">To</label>
                                                 <select className="form-select" aria-label="Default select example" id="to">
                                                     <option value="1">My Cash</option>
                                                     <option value="2">Bank</option>
@@ -152,8 +115,8 @@ class Dashboard extends React.Component {
                                             </div>
 
                                             <div className="col-3">
-                                                <div class="input-group amount-margin-top">
-                                                    <input type="date" class="form-control" />
+                                                <div className="input-group amount-margin-top">
+                                                    <input type="date" className="form-control" />
                                                 </div>
                                             </div>
                                         </div>
@@ -173,7 +136,7 @@ class Dashboard extends React.Component {
                                     <form>
                                         <div className="row mb-3 mt-3">
                                             <div className="col-9">
-                                                <label for="to" className="form-label">To</label>
+                                                <label htmlFor="to" className="form-label">To</label>
                                                 <select className="form-select" aria-label="Default select example" id="to">
                                                     <option value="1">My Cash</option>
                                                     <option value="2">Bank</option>
@@ -182,22 +145,22 @@ class Dashboard extends React.Component {
                                             </div>
 
                                             <div className="col-3">
-                                                <div class="input-group amount-margin-top">
-                                                    <input type="text" id="amount" class="form-control" />
-                                                    <span class="input-group-text" id="basic-addon2">NPR</span>
+                                                <div className="input-group amount-margin-top">
+                                                    <input type="text" id="amount" className="form-control" />
+                                                    <span className="input-group-text" id="basic-addon2">NPR</span>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="row mb-3 mt-3">
                                             <div className="col-9">
-                                                <label for="tags" className="form-label">Tags</label>
+                                                <label htmlFor="tags" className="form-label">Tags</label>
                                                 <input type="text" className="form-control" id="tags" />
                                             </div>
 
                                             <div className="col-3">
-                                                <div class="input-group amount-margin-top">
-                                                    <input type="date" class="form-control" />
+                                                <div className="input-group amount-margin-top">
+                                                    <input type="date" className="form-control" />
                                                 </div>
                                             </div>
                                         </div>
