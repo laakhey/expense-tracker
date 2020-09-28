@@ -13,7 +13,6 @@ import Modal from "react-bootstrap/Modal";
 class AccountForm extends React.Component {
 
     getAccountGroupList() {
-        console.log(this.props.groups);
         return this.props.groups.map(data => {
             data.value = data.name;
             data.label = data.name;
@@ -26,19 +25,17 @@ class AccountForm extends React.Component {
     }
 
     hideModal() {
-        this.props.reset();
         this.props.closeModal();
     }
 
     renderAccountFormTitle() {
-        console.log("addAccount: ", this.props.addAccount);
         return this.props.isAdd ? "Add Account" : "Edit Account";
     }
 
     render() {
         return (
             <div>
-                <Modal show={this.props.isModalOpen} onHide={this.hideModal} backdrop="static">
+                <Modal show={this.props.isModalOpen} onHide={this.hideModal} keyboard={false} backdrop="static">
                     <Modal.Header>
                         <Modal.Title>{this.renderAccountFormTitle()}</Modal.Title>
                     </Modal.Header>

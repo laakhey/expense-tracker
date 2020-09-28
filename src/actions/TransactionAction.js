@@ -15,7 +15,7 @@ export const addExpense = (formValues) => async (dispatch) => {
                 note: formValues.note
             }
         });
-        deductFromAccount(dispatch.formValues.from, formValues.amount)
+        deductFromAccount(dispatch, formValues.from, formValues.amount)
 
         //will be replaced by some logger service
         console.info("Expense added successfully");
@@ -40,7 +40,7 @@ export const addIncome = (formValues) => async (dispatch) => {
                 note: formValues.note
             }
         });
-        addtoAccount(dispatch, formValues.to, formValues.amount);
+        addToAccount(dispatch, formValues.to, formValues.amount);
 
         //will be replaced by some logger service
         console.info("Income added successfully");
@@ -65,7 +65,7 @@ export const addTransfer = (formValues) => async (dispatch) => {
                 note: formValues.note
             }
         });
-        addtoAccount(dispatch, formValues.to, formValues.amount);
+        addToAccount(dispatch, formValues.to, formValues.amount);
         deductFromAccount(dispatch, formValues.from, formValues.amount)
 
         //will be replaced by some logger service
@@ -78,7 +78,7 @@ export const addTransfer = (formValues) => async (dispatch) => {
     }
 }
 
-const addtoAccount = (dispatch, id, amount) => {
+const addToAccount = (dispatch, id, amount) => {
     dispatch({
         type: ADD_TO_ACCOUNT,
         payload: {
@@ -118,7 +118,7 @@ export const setActiveForm = form => async (dispatch) => {
 export const addExpenseTag = tag => async (dispatch) => {
     console.log(tag);
     const formattedTag = Utility.capitalizeEveryFirstChar(tag.label);
-    console.log("formated tag", formattedTag)
+    console.log("formatted tag", formattedTag)
     dispatch({
         type: ADD_EXPENSE_TAG,
         payload: {

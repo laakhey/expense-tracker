@@ -1,4 +1,15 @@
-import { ADD, EDIT, DELETE, LOADING, RESET, RESET_LOADING, CLOSE_MODAL, OPEN_MODAL, DEDUCT_FROM_ACCOUNT, ADD_TO_ACCOUNT } from "../actions/types";
+import {
+    ADD,
+    EDIT,
+    DELETE,
+    LOADING,
+    RESET,
+    RESET_LOADING,
+    CLOSE_MODAL,
+    OPEN_MODAL,
+    DEDUCT_FROM_ACCOUNT,
+    ADD_TO_ACCOUNT
+} from "../actions/types";
 import Utility from "../Utility";
 
 //later will be added to some constant file.
@@ -66,11 +77,11 @@ const INITIAL_STATE = {
     counter: (localStorage.getItem("counter")) ? Number(localStorage.getItem("counter")) : 20,
     addAccount: true,
     groups: [
-        { id: 1, name: "Cash" },
-        { id: 2, name: "Bank" },
-        { id: 3, name: "Asset" },
-        { id: 4, name: "Credit" },
-        { id: 5, name: "Deposit" }
+        {id: 1, name: "Cash"},
+        {id: 2, name: "Bank"},
+        {id: 3, name: "Asset"},
+        {id: 4, name: "Credit"},
+        {id: 5, name: "Deposit"}
     ]
 
 };
@@ -95,7 +106,7 @@ const addAmount = (state, payload) => {
 
 //for updating the account in array
 const updateAccountList = function (state, payload) {
-    const newState = { ...state };
+    const newState = {...state};
     newState.list.filter(account => account.id === Number(payload.id)).map(account => {
         account.name = payload.name;
         account.group = payload.group;
@@ -145,13 +156,13 @@ export default (state = INITIAL_STATE, action) => {
         case RESET:
             return Utility.updateObject(state, INITIAL_STATE);
         case LOADING:
-            return Utility.updateObject(state, { loading: true });
+            return Utility.updateObject(state, {loading: true});
         case RESET_LOADING:
-            return Utility.updateObject(state, { loading: false });
+            return Utility.updateObject(state, {loading: false});
         case OPEN_MODAL:
-            return Utility.updateObject(state, { openModal: true, addAccount: action.payload === "add" ? true : false });
+            return Utility.updateObject(state, {openModal: true, addAccount: action.payload === "add"});
         case CLOSE_MODAL:
-            return Utility.updateObject(state, { openModal: false });
+            return Utility.updateObject(state, {openModal: false});
         default:
             return state;
     }

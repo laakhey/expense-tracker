@@ -2,10 +2,10 @@ import React, { Suspense } from 'react';
 import Header from './components/Header'
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Transaction from './components/Transaction';
+import Transaction from './components/transactions/Transaction';
 import Account from './components/accounts/Account';
 import Report from './components/Report';
-import Dashboard from './components/Dashboard';
+import Dashboard from './components/dashboards/Dashboard';
 import Notification from './components/Notification';
 
 function App() {

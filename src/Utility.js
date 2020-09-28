@@ -15,9 +15,24 @@ const capitalizeEveryFirstChar = (str) => {
     return str.replace(/\b\w/g, v => v.toUpperCase())
 }
 
+const getFormatedDate = (stringDate) => {
+    return new Date(stringDate).toLocaleString("en-GB", {
+        month: "short",
+        day: "numeric",
+        year: "2-digit"
+    })
+}
+
+const showTextColor = (amount) => {
+    return amount >= 0 ? "text-success" : "text-danger";
+}
+
+
 export default {
     isEmpty,
     updateObject,
-    capitalizeEveryFirstChar
+    capitalizeEveryFirstChar,
+    getFormatedDate,
+    showTextColor
 };
 

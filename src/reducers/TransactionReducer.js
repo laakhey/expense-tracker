@@ -1,4 +1,4 @@
-import { ADD_TRANSACTION, ADD_EXPENSE_TAG, ADD_INCOME_TAG, ADD_TRANSFER, ADD_INCOME, SET_SELECTED_TAGS, SET_ACTIVE_FORM } from "../actions/types";
+import { ADD_TRANSACTION, ADD_EXPENSE_TAG, ADD_INCOME_TAG, SET_SELECTED_TAGS, SET_ACTIVE_FORM } from "../actions/types";
 import Utility from "../Utility";
 
 const DEFAULT_EXPENSE_TAG_LIST = [
@@ -50,26 +50,6 @@ export default (state = INITIAL_STATE, action) => {
             return Utility.updateObject(state, {
                 list: newList,
                 counter: newCounter
-            });
-
-        case ADD_TRANSFER:
-            const newTransferCounter = state.counter + 1;
-            action.payload.id = newTransferCounter;
-            const newTransferList = state.list.concat(action.payload);
-            saveToLocalStorage(newTransferList, newTransferCounter);
-            return Utility.updateObject(state, {
-                list: newTransferList,
-                counter: newTransferCounter
-            });
-
-        case ADD_INCOME:
-            const newIncomeCounter = state.counter + 1;
-            action.payload.id = newCounter;
-            const newIncomeList = state.list.concat(action.payload);
-            saveToLocalStorage(newIncomeList, newIncomeCounter);
-            return Utility.updateObject(state, {
-                list: newIncomeList,
-                counter: newIncomeCounter
             });
 
         //WTD checking duplicate expense tag

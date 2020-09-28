@@ -1,5 +1,6 @@
 import { ADD, EDIT, CLOSE_MODAL, LOADING, OPEN_MODAL, RESET_LOADING } from "./types";
 import { reset, change } from "redux-form";
+import {success} from "./NotificationAction";
 
 export const addAccount = formValues => async (dispatch) => {
     try {
@@ -17,7 +18,7 @@ export const addAccount = formValues => async (dispatch) => {
                 amount: formValues.amount
             }
         });
-        // dispatch(success("Account added successfully."));
+        dispatch(success("Account added successfully."));
         //will be replaced by some logger service
         console.info("Account added successfully");
         dispatch(reset('accountForm'));

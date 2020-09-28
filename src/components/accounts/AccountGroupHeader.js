@@ -1,4 +1,5 @@
 import React from "react";
+import Utility from "../../Utility";
 import AccountListCard from "./AccountListCard";
 
 class AccountGroupHeader extends React.Component {
@@ -11,23 +12,19 @@ class AccountGroupHeader extends React.Component {
     }
 
     renderAccountList() {
-        console.log("group: ", this.props)
         return this.props.accountList.map(account => {
-            account.showTextColor = this.showTextColor;
             account.groupId = this.props.id;
             account.hideEdit = this.props.hideEdit;
             return <AccountListCard key={account.id} {...account} />
         });
     }
-    showTextColor(amount) {
-        return amount >= 0 ? "text-success" : "text-danger";
-    }
+   
     render() {
         return (
             <div>
                 <div className="card-header" >
                     <span>{this.props.group}</span>
-                    <span className={'float-right font-weight-bold ' + this.showTextColor(this.getTotalAmount())}>{this.getTotalAmount()} NPR</span>
+                    <span className={'float-right font-weight-bold ' + Utility.showTextColor(this.getTotalAmount())}>{this.getTotalAmount()} NPR</span>
                 </div>
                 <ul className="list-group">
                     {this.renderAccountList()}
