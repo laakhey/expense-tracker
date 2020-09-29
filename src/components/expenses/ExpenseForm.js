@@ -1,7 +1,7 @@
 import React from "react";
-import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
-import { addExpense, addExpenseTag, setSelectedTags } from '../../actions';
+import {connect} from 'react-redux';
+import {Field, reduxForm} from 'redux-form';
+import {addExpense, addExpenseTag, setSelectedTags} from '../../actions';
 import Loading from "../html/Loading";
 import Select from "../html/Select";
 import Date from "../html/Date";
@@ -27,18 +27,30 @@ class ExpenseForm extends React.Component {
         });
     }
 
+    getSelectedTags() {
+        const selectedTagsArray = [];
+        this.props.selectedTags.forEach(tag => {
+            selectedTagsArray.push({
+                label: tag,
+                value: tag
+            })
+        });
+        return selectedTagsArray;
+    }
+
     render() {
         return (
             <form name="expenseForm" onSubmit={this.props.handleSubmit(this.props.addExpense)}>
                 <div className="row mb-3 mt-3">
                     <div className="col-9">
-                        <Field component={Select} name="from" label="From" options={this.getAccountList()} required="true" />
+                        <Field component={Select} name="from" label="From" options={this.getAccountList()}
+                               required="true"/>
 
                     </div>
 
                     <div className="col-3">
                         <div className="amount-margin-top">
-                            <Field component={TextGroup} name="amount" groupLabel="NPR" />
+                            <Field component={TextGroup} name="amount" groupLabel="NPR"/>
                         </div>
                     </div>
                 </div>
@@ -47,6 +59,7 @@ class ExpenseForm extends React.Component {
                     <div className="col-9">
                         <label className="form-label">Tags</label>
                         <CreatableSelect
+                            defaultValue={this.getSelectedTags()}
                             isMulti
                             onChange={this.handleChange}
                             options={this.props.tags}
@@ -56,23 +69,25 @@ class ExpenseForm extends React.Component {
 
                     <div className="col-3">
                         <div className="amount-margin-top">
-                            <Field component={Date} name="date" required="true" />
+                            <Field component={Date} name="date" required="true"/>
                         </div>
                     </div>
                 </div>
                 <div className="row mb-3 mt-3">
                     <div className="col-9">
-                        <Field component={Text} name="note" hasLabel={false} placeholder="Note" />
+                        <Field component={Text} name="note" hasLabel={false} placeholder="Note"/>
                     </div>
 
                     <div className="col-3">
-                        <button type="submit" className="btn btn-primary btn-block" disabled={this.props.loading}> Add Expense &nbsp; <Loading /></button>
+                        <button type="submit" className="btn btn-primary btn-block" disabled={this.props.loading}> Save
+                            Expense &nbsp; <Loading/></button>
                     </div>
                 </div>
             </form>
         );
     }
 }
+//WTD create a reusable methods
 const validate = (formValues) => {
     const errors = {};
     if (!formValues.from || formValues.from === "0") {
@@ -86,7 +101,6 @@ const validate = (formValues) => {
     if (formValues.amount) {
         try {
             const amount = Number(formValues.amount);
-            console.log(amount);
             if (Object.is(NaN, amount)) {
                 errors.amount = "Enter Valid Amount"
             }
@@ -103,11 +117,12 @@ const validate = (formValues) => {
 const mapStateToProps = state => {
     return {
         accountList: state.account.list,
-        tags: state.transaction.expenseTags
+        tags: state.transaction.expenseTags,
+        selectedTags: state.transaction.selectedExpenseTags
     }
 };
 
-const connectExpenseForm = connect(mapStateToProps, { addExpense, addExpenseTag, setSelectedTags })(ExpenseForm);
+const connectExpenseForm = connect(mapStateToProps, {addExpense, addExpenseTag, setSelectedTags})(ExpenseForm);
 export default reduxForm({
     form: "expenseForm",
     validate,

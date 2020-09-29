@@ -78,7 +78,6 @@ const validate = (formValues) => {
     if (formValues.amount) {
         try {
             const amount = Number(formValues.amount);
-            console.log(amount);
             if (Object.is(NaN, amount)) {
                 errors.amount = "Enter Valid Amount";
             }

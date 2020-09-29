@@ -1,6 +1,7 @@
-import { ADD, EDIT, CLOSE_MODAL, LOADING, OPEN_MODAL, RESET_LOADING } from "./types";
-import { reset, change } from "redux-form";
-import {success} from "./NotificationAction";
+import {ADD, ADD_TO_ACCOUNT, DEDUCT_FROM_ACCOUNT, EDIT} from "./types";
+import {reset, change} from "redux-form";
+import {success, error} from "./NotificationAction";
+import {loading, resetLoading, closeModal} from "./CommonAction";
 
 export const addAccount = formValues => async (dispatch) => {
     try {
@@ -25,7 +26,7 @@ export const addAccount = formValues => async (dispatch) => {
         dispatch(closeModal());
     } catch (e) {
         console.error("Error Occurred while adding account: ", e)
-        // dispatch(error("Error Occurred while adding account: " + e));
+        dispatch(error("Error Occurred while adding account: " + e));
     } finally {
         dispatch(resetLoading()); //terminating loading
     }
@@ -41,25 +42,22 @@ export const fillAccountForm = account => async (dispatch) => {
 }
 
 
-export const loading = () => {
+export const addToAccount = (id, amount) => {
     return {
-        type: LOADING
-    }
-};
-export const openModal = (formType) => {
-    return {
-        type: OPEN_MODAL,
-        payload: formType
-    }
-};
-export const closeModal = () => {
-    return {
-        type: CLOSE_MODAL
-    }
-};
+        type: ADD_TO_ACCOUNT,
+        payload: {
+            id: Number(id),
+            amount: Number(amount)
+        }
+    };
+}
 
-export const resetLoading = () => {
+export const deductFromAccount = (id, amount) => {
     return {
-        type: RESET_LOADING
-    }
-};
+        type: DEDUCT_FROM_ACCOUNT,
+        payload: {
+            id: Number(id),
+            amount: Number(amount)
+        }
+    };
+}

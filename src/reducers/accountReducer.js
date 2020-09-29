@@ -72,8 +72,6 @@ const defaultAccountList = [
 //account reducer initial data
 const INITIAL_STATE = {
     list: (localStorage.getItem("list")) ? JSON.parse(localStorage.getItem("list")) : defaultAccountList,
-    loading: false,
-    openModal: false,
     counter: (localStorage.getItem("counter")) ? Number(localStorage.getItem("counter")) : 20,
     addAccount: true,
     groups: [
@@ -115,7 +113,6 @@ const updateAccountList = function (state, payload) {
         return account;
     });
     return newState.list;
-
 }
 
 export default (state = INITIAL_STATE, action) => {

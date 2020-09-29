@@ -27,6 +27,17 @@ class IncomeForm extends React.Component {
         });
     }
 
+    getSelectedTags() {
+        const selectedTagsArray = [];
+        this.props.selectedTags.forEach(tag => {
+            selectedTagsArray.push({
+                label: tag,
+                value: tag
+            })
+        });
+        return selectedTagsArray;
+    }
+
     render() {
         return (
             <form name="incomeForm" onSubmit={this.props.handleSubmit(this.props.addIncome)}>
@@ -47,6 +58,7 @@ class IncomeForm extends React.Component {
                     <div className="col-9">
                         <label className="form-label">Tags</label>
                         <CreatableSelect
+                            defaultValue={this.getSelectedTags()}
                             isMulti
                             onChange={this.handleChange}
                             options={this.props.tags}
@@ -73,6 +85,8 @@ class IncomeForm extends React.Component {
         );
     }
 }
+
+//WTD create reusable method (code seems to have similar with expense form)
 const validate = (formValues) => {
     const errors = {};
     if (!formValues.to || formValues.to === "0") {
@@ -86,7 +100,6 @@ const validate = (formValues) => {
     if (formValues.amount) {
         try {
             const amount = Number(formValues.amount);
-            console.log(amount);
             if (Object.is(NaN, amount)) {
                 errors.amount = "Enter Valid Amount"
             }
@@ -103,7 +116,8 @@ const validate = (formValues) => {
 const mapStateToProps = state => {
     return {
         accountList: state.account.list,
-        tags: state.transaction.incomeTags
+        incomeTags: state.transaction.incomeTags,
+        selectedTags: state.transaction.selectedIncomeTags
     }
 };
 
