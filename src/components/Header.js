@@ -14,16 +14,16 @@ class Header extends React.Component {
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul className="navbar-nav mr-auto mb-2 mb-lg-0">
                                 <li className="nav-item">
-                                    <NavLink to="/" className="nav-link" aria-current="page"><i className="fa fa-tachometer fa-lg"></i> Dashboard</NavLink>
+                                    <NavLink to="/expense-tracker/" className="nav-link" aria-current="page"><i className="fa fa-tachometer fa-lg"></i> Dashboard</NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <NavLink to="/transactions" className="nav-link" aria-current="page"><i className="fa fa-exchange fa-lg"></i> Transactions</NavLink>
+                                    <NavLink to="/expense-tracker/transactions" className="nav-link" aria-current="page"><i className="fa fa-exchange fa-lg"></i> Transactions</NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <NavLink to="/accounts" className="nav-link" aria-current="page"><i className="fa fa-credit-card-alt fa-lg"></i> Accounts</NavLink>
+                                    <NavLink to="/expense-tracker/accounts" className="nav-link" aria-current="page"><i className="fa fa-credit-card-alt fa-lg"></i> Accounts</NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <NavLink to="/resports" className="nav-link" aria-current="page"><i className="fa fa-line-chart fa-lg"></i> Reports</NavLink>
+                                    <NavLink to="/expense-tracker/reports" className="nav-link" aria-current="page"><i className="fa fa-line-chart fa-lg"></i> Reports</NavLink>
                                 </li>
                             </ul>
                         </div>
