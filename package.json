@@ -29,7 +29,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "run-app": "node node_modules/react-scripts/bin/react-scripts.js start"
   },
   "eslintConfig": {
     "extends": "react-app"
