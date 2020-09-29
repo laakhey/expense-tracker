@@ -1,6 +1,6 @@
 import {combineReducers} from "redux";
-import AccountReducer from "./AccountReducer";
 import {reducer as formReducer} from "redux-form";
+import AccountReducer from "./AccountReducer";
 import NotificationReducer from './NotificationReducer';
 import TransactionReducer from './TransactionReducer';
 import CommonReducer from "./CommonReducer";
