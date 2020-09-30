@@ -29,7 +29,6 @@ class Notification extends React.Component {
     componentDidUpdate() {
         if (this.props.display) {
             this.createNotification(this.props.type, this.props.message, this.props.title || null);
-            // this.props.reset();
         }
     }
 

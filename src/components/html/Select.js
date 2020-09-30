@@ -12,7 +12,7 @@ const Select = ({ input, label, options, required, meta }) => {
         <div className="form-group">
             <label htmlFor={input.name} className="form-label" >{label}{(required) ? <span className="text-danger">*</span> : ""}</label>
             <select className={inputClass} id={input.name} {...input}>
-                <option value="0"></option>
+                <option value="0"/>
                 {renderAccountGroups(options)}
             </select>
             <InvalidFeedback meta={meta} />

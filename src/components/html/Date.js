@@ -1,7 +1,7 @@
 import React from "react";
 import InvalidFeedback from './InvalidFeedback';
 
-const Date = ({ input, label, required, meta }) => {
+const Date = ({ input, meta }) => {
     const isInvalid = meta.error && meta.touched;
     const inputClass = `form-control ${isInvalid ? 'is-invalid' : ''}`;
     return (
