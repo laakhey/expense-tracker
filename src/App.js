@@ -17,10 +17,10 @@ function App() {
 					<div className="row">
 						<Suspense fallback={<div>Loading...</div>}>
 							<Switch>
-								<Route exact path="/expense-tracker/" component={Dashboard} />
-								<Route exact path={"/expense-tracker/transactions"} component={Transaction} />
-								<Route exact path={"/expense-tracker/accounts"} component={Account} />
-								<Route exact path={"/expense-tracker/reports"} component={Report} />
+								<Route exact path="/" component={Dashboard} />
+								<Route exact path={"/transactions"} component={Transaction} />
+								<Route exact path={"/accounts"} component={Account} />
+								<Route exact path={"/reports"} component={Report} />
 							</Switch>
 						</Suspense>
 					</div>

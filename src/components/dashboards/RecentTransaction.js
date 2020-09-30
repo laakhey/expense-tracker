@@ -21,7 +21,7 @@ class RecentTransaction extends React.Component {
     render() {
         return (
             <div className="card mb-3">
-                <div className="card-header">RECENT TRANSACTION<span className="float-right"><NavLink to="/expense-tracker/transactions" className="nav-link" aria-current="page"><i className="fa fa-list-ul fa-lg"/> View More...</NavLink></span></div>
+                <div className="card-header">RECENT TRANSACTION<span className="float-right"><NavLink to="/transactions" className="nav-link" aria-current="page"><i className="fa fa-list-ul fa-lg"/> View More...</NavLink></span></div>
                 <div className="card-body text-primary pl-0 pr-0 pt-0 pb-0">
                     <ul className="list-group">
                         {this.renderTransactionList()}
