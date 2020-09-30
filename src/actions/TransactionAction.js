@@ -26,7 +26,7 @@ const revertExpenseAmount = (dispatch, formValues, transactionList) => {
 const revertIncomeAmount = (dispatch, formValues, transactionList) => {
     const getCurrentTransaction = transactionList.filter(d => Number(d.id) === Number(formValues.id))[0];
     if (Number(getCurrentTransaction.amount) !== Number(formValues.amount) || getCurrentTransaction.to !== formValues.to) {
-        dispatch(deductFromAccount(getCurrentTransaction.to, getCurrentTransaction.to));
+        dispatch(deductFromAccount(getCurrentTransaction.to, getCurrentTransaction.amount));
     }
 }
 
@@ -90,6 +90,7 @@ export const addIncome = (formValues) => async (dispatch, getState) => {
         dispatch({
             type: type,
             payload: {
+                id: formValues.id,
                 to: formValues.to,
                 date: formValues.date,
                 from: null,
@@ -103,6 +104,7 @@ export const addIncome = (formValues) => async (dispatch, getState) => {
         console.info("Income added successfully");
         dispatch(reset('incomeForm'));
         dispatch(closeModal());
+        dispatch(_setActiveForm("expenseForm"));
     } catch (e) {
         console.error("Error Occurred while adding income: ", e)
     } finally {
@@ -124,9 +126,10 @@ export const addTransfer = (formValues) => async (dispatch, getState) => {
         dispatch({
             type: type,
             payload: {
+                id: formValues.id,
                 to: formValues.to,
                 date: formValues.date,
-                from: formValues.to,
+                from: formValues.from,
                 amount: formValues.amount,
                 note: formValues.note
             }
@@ -138,6 +141,7 @@ export const addTransfer = (formValues) => async (dispatch, getState) => {
         console.info("Transfer added successfully");
         dispatch(reset('transferForm'));
         dispatch(closeModal());
+        dispatch(_setActiveForm("expenseForm"));
     } catch (e) {
         console.error("Error Occurred while adding transfer: ", e)
     } finally {
@@ -154,10 +158,14 @@ export const setSelectedTags = tags => async (dispatch) => {
 }
 
 export const setActiveForm = form => async (dispatch) => {
-    dispatch({
+    dispatch(_setActiveForm(form));
+}
+
+export const _setActiveForm = form => {
+    return {
         type: SET_ACTIVE_FORM,
         payload: form
-    });
+    };
 }
 
 export const clearSelectedTags = () => async (dispatch) => {
@@ -213,10 +221,10 @@ export const fillIncomeForm = transaction => async (dispatch) => {
     })
 }
 export const fillTransferForm = transaction => async (dispatch) => {
-    dispatch(change("expenseForm", "id", transaction.id));
-    dispatch(change("expenseForm", "from", transaction.from));
-    dispatch(change("expenseForm", "to", transaction.to));
-    dispatch(change("expenseForm", "note", transaction.note));
-    dispatch(change("expenseForm", "amount", transaction.amount));
-    dispatch(change("expenseForm", "date", transaction.date));
+    dispatch(change("transferForm", "id", transaction.id));
+    dispatch(change("transferForm", "from", transaction.from));
+    dispatch(change("transferForm", "to", transaction.to));
+    dispatch(change("transferForm", "note", transaction.note));
+    dispatch(change("transferForm", "amount", transaction.amount));
+    dispatch(change("transferForm", "date", transaction.date));
 }
