@@ -78,7 +78,7 @@ class IncomeForm extends React.Component {
                     </div>
 
                     <div className="col-3">
-                        <button type="submit" className="btn btn-primary btn-block" disabled={this.props.loading}> Add Income &nbsp; <Loading /></button>
+                        <button type="submit" className="btn btn-primary btn-block" disabled={this.props.loading}> Save Income &nbsp; <Loading /></button>
                     </div>
                 </div>
             </form>
@@ -116,7 +116,7 @@ const validate = (formValues) => {
 const mapStateToProps = state => {
     return {
         accountList: state.account.list,
-        incomeTags: state.transaction.incomeTags,
+        tags: state.transaction.incomeTags,
         selectedTags: state.transaction.selectedIncomeTags
     }
 };

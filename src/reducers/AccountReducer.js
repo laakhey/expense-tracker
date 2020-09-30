@@ -87,7 +87,7 @@ const INITIAL_STATE = {
 //deducting amount from account
 const deductAmount = (state, payload) => {
     state.list.filter(obj => obj.id === Number(payload.id)).map(obj => {
-        obj.amount = obj.amount - payload.amount
+        obj.amount = Number(obj.amount) - Number(payload.amount);
         return obj;
     });
     return state.list;
@@ -96,7 +96,7 @@ const deductAmount = (state, payload) => {
 //adding amount to account
 const addAmount = (state, payload) => {
     state.list.filter(obj => obj.id === Number(payload.id)).map(obj => {
-        obj.amount = obj.amount + payload.amount
+        obj.amount = Number(obj.amount) + Number(payload.amount);
         return obj;
     });
     return state.list;
@@ -109,7 +109,7 @@ const updateAccountList = function (state, payload) {
         account.name = payload.name;
         account.group = payload.group;
         account.showOnDashboard = payload.showOnDashboard;
-        account.amount = payload.amount;
+        account.amount = Number(payload.amount);
         return account;
     });
     return newState.list;
@@ -145,7 +145,7 @@ export default (state = INITIAL_STATE, action) => {
             return Utility.updateObject(state, {
                 list: updatedAddedList
             });
-
+        //WTD
         case DELETE:
             return Utility.updateObject(state, {
                 list: action.payload.list

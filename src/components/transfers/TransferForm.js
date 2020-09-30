@@ -53,7 +53,7 @@ class TransferForm extends React.Component {
                     </div>
 
                     <div className="col-3">
-                        <button type="submit" className="btn btn-primary btn-block" disabled={this.props.loading}> Add Transfer &nbsp; <Loading /></button>
+                        <button type="submit" className="btn btn-primary btn-block" disabled={this.props.loading}> Save Transfer &nbsp; <Loading /></button>
                     </div>
                 </div>
             </form>
